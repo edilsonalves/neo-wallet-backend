@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
+import { Account } from '@/modules/account/infrastructure/typeorm/entities/account'
 import { TransactionTypeEnum, TransactionStatusEnum } from '@/modules/transaction/enums'
 
 @Entity('transactions')
@@ -21,6 +22,9 @@ class Transaction {
 
   @Column()
   value: number
+
+  @ManyToOne(() => Account, account => account.transactions)
+  account: Account
 
   @CreateDateColumn()
   createdAt: Date
