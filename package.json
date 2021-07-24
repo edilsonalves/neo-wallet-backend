@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "tsnd src/shared/infrastructure/server.ts",
     "test": "jest",
     "test:staged": "jest --passWithNoTests",
     "prepare": "husky install"
