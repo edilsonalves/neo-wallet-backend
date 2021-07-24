@@ -1,8 +1,11 @@
-import 'reflect-metadata'
-import express, { Express } from 'express'
+import express, { Express, Request, Response, NextFunction } from 'express'
 import { createConnection } from 'typeorm'
 
+import 'express-async-errors'
+import 'reflect-metadata'
+
 import { routes } from './routes'
+import { AppError } from '../errors/app-error'
 
 class Server {
   constructor (
@@ -13,6 +16,7 @@ class Server {
     await this.setupDatabase()
     this.setupServer()
     this.setupRoutes()
+    this.setupErrors()
     this.setupListen()
   }
 
@@ -26,6 +30,27 @@ class Server {
 
   private setupRoutes (): void {
     this.app.use(routes)
+  }
+
+  private setupErrors (): void {
+    this.app.use((error: Error, request: Request, response: Response, _: NextFunction) => {
+      console.log(error)
+
+      const errorData = {
+        statusCode: 500,
+        message: 'Internal Server Error'
+      }
+
+      if (error instanceof AppError) {
+        errorData.statusCode = error.statusCode
+        errorData.message = error.message
+      }
+
+      return response.status(errorData.statusCode).json({
+        status: 'error',
+        message: errorData.message
+      })
+    })
   }
 
   private setupListen (): void {
