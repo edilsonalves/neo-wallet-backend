@@ -1,5 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn
+} from 'typeorm'
 import { Exclude } from 'class-transformer'
+
+import { Account } from '@/modules/account/infrastructure/typeorm/entities/account'
 
 @Entity('users')
 class User {
@@ -24,6 +34,10 @@ class User {
   @Column()
   @Exclude()
   password: string
+
+  @OneToOne(() => Account, account => account.user)
+  @JoinColumn()
+  account: Account
 
   @CreateDateColumn()
   createdAt: Date
