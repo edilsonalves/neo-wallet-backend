@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register -r dotenv/config src/shared/infrastructure/server.ts",
+    "dev:db": "docker-compose up -d",
     "test": "jest",
     "test:staged": "jest --passWithNoTests",
     "prepare": "husky install"
