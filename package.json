@@ -8,6 +8,7 @@
     "dev:db": "docker-compose up -d",
     "test": "jest",
     "test:staged": "jest --passWithNoTests",
+    "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "prepare": "husky install"
   },
   "keywords": [],
