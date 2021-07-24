@@ -23,4 +23,4 @@ class Server {
   }
 }
 
-new Server(express(), 3333).startServer()
+new Server(express(), Number(process.env.PORT)).startServer()
