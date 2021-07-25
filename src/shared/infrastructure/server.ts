@@ -5,7 +5,7 @@ import 'express-async-errors'
 import 'reflect-metadata'
 import '@/shared/containers'
 
-import { routes } from './routes'
+import { routes } from './http/routes'
 import { AppError } from '@/shared/errors/app-error'
 
 class Server {
