@@ -3,9 +3,10 @@ import { createConnection } from 'typeorm'
 
 import 'express-async-errors'
 import 'reflect-metadata'
+import '@/shared/containers'
 
 import { routes } from './routes'
-import { AppError } from '../errors/app-error'
+import { AppError } from '@/shared/errors/app-error'
 
 class Server {
   constructor (
