@@ -29,6 +29,7 @@ class User {
   phone: string
 
   @Column()
+  @Exclude()
   cpf: string
 
   @Column()
