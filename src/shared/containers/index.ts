@@ -7,6 +7,8 @@ import { JwtProtocol } from './providers/jwt-provider/protocols/jwt-protocol'
 
 import { UserRepository } from '@/modules/user/infrastructure/typeorm/repositories/user-repository'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
+import { AccountRepository } from '@/modules/account/infrastructure/typeorm/repositories/account-repository'
+import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
 
 // Providers
 container.registerSingleton<HashProtocol>('BCryptProvider', BCryptProvider)
@@ -14,3 +16,4 @@ container.registerSingleton<JwtProtocol>('JsonWebTokenProvider', JsonWebTokenPro
 
 // Repositories
 container.registerSingleton<UserProtocol>('UserRepository', UserRepository)
+container.registerSingleton<AccountProtocol>('AccountRepository', AccountRepository)
