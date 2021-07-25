@@ -1,15 +1,13 @@
 import { Router, Request, Response } from 'express'
 
-import { AppError } from '@/shared/errors/app-error'
+import { userRoute } from '@/modules/user/infrastructure/http/routes/user-route'
 
 const routes = Router()
 
 routes.get('/', (_: Request, response: Response) => {
-  return response.json({ message: 'hello-world' })
+  return response.json({ message: 'neo-wallet' })
 })
 
-routes.get('/error', (_: Request, response: Response) => {
-  throw new AppError('error', 400)
-})
+routes.use('/users', userRoute)
 
 export { routes }
