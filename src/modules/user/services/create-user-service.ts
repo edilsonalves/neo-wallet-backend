@@ -66,7 +66,6 @@ class CreateUserService {
       throw new AppError('As senhas não coincidem', 409)
     }
 
-    const hashedCpf = await this.bcryptProvider.generateHash(cpf)
     const hashedPassword = await this.bcryptProvider.generateHash(password)
 
     const user = this.userRepository.create({
@@ -74,7 +73,7 @@ class CreateUserService {
       lastName,
       email,
       phone,
-      cpf: hashedCpf,
+      cpf,
       password: hashedPassword
     })
 
