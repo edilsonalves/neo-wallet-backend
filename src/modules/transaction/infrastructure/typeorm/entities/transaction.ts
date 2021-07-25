@@ -5,7 +5,7 @@ import { TransactionTypeEnum, TransactionStatusEnum } from '@/modules/transactio
 
 @Entity('transactions')
 class Transaction {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number
 
   @Column({

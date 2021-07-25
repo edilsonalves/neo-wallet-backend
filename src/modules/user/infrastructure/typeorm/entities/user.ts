@@ -13,7 +13,7 @@ import { Account } from '@/modules/account/infrastructure/typeorm/entities/accou
 
 @Entity('users')
 class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number
 
   @Column()

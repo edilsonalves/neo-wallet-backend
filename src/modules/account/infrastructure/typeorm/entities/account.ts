@@ -13,7 +13,7 @@ import { Transaction } from '@/modules/transaction/infrastructure/typeorm/entiti
 
 @Entity('accounts')
 class Account {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number
 
   @Column()
