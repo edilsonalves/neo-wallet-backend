@@ -6,7 +6,7 @@ import { TransactionTypeEnum, TransactionStatusEnum } from '@/modules/transactio
 @Entity('transactions')
 class Transaction {
   @PrimaryGeneratedColumn('uuid')
-  id: number
+  id: string
 
   @Column({
     type: 'enum',

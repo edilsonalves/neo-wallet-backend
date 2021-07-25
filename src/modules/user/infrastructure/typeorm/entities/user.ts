@@ -14,7 +14,7 @@ import { Account } from '@/modules/account/infrastructure/typeorm/entities/accou
 @Entity('users')
 class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number
+  id: string
 
   @Column()
   firstName: string
