@@ -22,11 +22,11 @@ class Account {
   @Column()
   number: string
 
-  @Column()
-  balance: string
+  @Column({ default: 0 })
+  balance: number
 
-  @Column()
-  income: string
+  @Column({ default: 0 })
+  income: number
 
   @OneToOne(() => User, user => user.account)
   user: User
