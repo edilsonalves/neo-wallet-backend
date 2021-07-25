@@ -4,8 +4,8 @@ import { AppError } from '@/shared/errors/app-error'
 import { User } from '../infrastructure/typeorm/entities/user'
 import { HashProtocol } from '@/shared/containers/providers/hash-provider/protocols/hash-protocol'
 import { UserProtocol } from '../protocols/repositories/user-protocol'
-import { isValidCpf } from '../utils/is-valid-cpf'
 import { JwtProtocol } from '@/shared/containers/providers/jwt-provider/protocols/jwt-protocol'
+import { isValidCpf } from '../utils'
 
 interface Request {
   cpf: string

@@ -4,8 +4,7 @@ import { AppError } from '@/shared/errors/app-error'
 import { User } from '../infrastructure/typeorm/entities/user'
 import { HashProtocol } from '@/shared/containers/providers/hash-provider/protocols/hash-protocol'
 import { UserProtocol } from '../protocols/repositories/user-protocol'
-import { isValidCpf } from '../utils/is-valid-cpf'
-import { isValidEmail } from '../utils/is-valid-email'
+import { isValidCpf, isValidEmail } from '../utils'
 
 interface Request {
   firstName: string
