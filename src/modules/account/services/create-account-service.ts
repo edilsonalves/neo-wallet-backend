@@ -32,7 +32,7 @@ class CreateAccountService {
       throw new AppError('Usuário não identificado', 404)
     }
 
-    if (user.account !== undefined) {
+    if (user.account !== null) {
       throw new AppError('O usuário já possui uma conta', 403)
     }
 
