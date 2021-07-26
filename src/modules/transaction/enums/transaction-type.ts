@@ -1,7 +1,7 @@
 enum TransactionTypeEnum {
-  Deposit = 'deposit',
-  Rescue = 'rescue',
-  Payment = 'payment',
+  DEPOSIT = 'deposit',
+  RESCUE = 'rescue',
+  PAYMENT = 'payment',
 }
 
 export { TransactionTypeEnum }

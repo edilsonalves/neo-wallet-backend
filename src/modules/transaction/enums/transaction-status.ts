@@ -1,7 +1,7 @@
 enum TransactionStatusEnum {
-  Success = 'success',
-  Failure = 'failure',
-  Scheduled = 'scheduled',
+  SUCCESS = 'success',
+  FAILURE = 'failure',
+  SCHEDULED = 'scheduled',
 }
 
 export { TransactionStatusEnum }

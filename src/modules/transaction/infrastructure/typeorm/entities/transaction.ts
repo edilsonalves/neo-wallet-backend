@@ -16,11 +16,12 @@ class Transaction {
 
   @Column({
     type: 'enum',
-    enum: TransactionStatusEnum
+    enum: TransactionStatusEnum,
+    default: TransactionStatusEnum.SUCCESS
   })
   status: TransactionStatusEnum
 
-  @Column()
+  @Column({ type: 'float' })
   value: number
 
   @ManyToOne(() => Account, account => account.transactions)

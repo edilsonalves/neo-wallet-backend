@@ -9,6 +9,8 @@ import { UserRepository } from '@/modules/user/infrastructure/typeorm/repositori
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
 import { AccountRepository } from '@/modules/account/infrastructure/typeorm/repositories/account-repository'
 import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
+import { TransactionRepository } from '@/modules/transaction/infrastructure/typeorm/repositories/transaction-repository'
+import { TransactionProtocol } from '@/modules/transaction/protocols/repositories/transaction-protocol'
 
 // Providers
 container.registerSingleton<HashProtocol>('BCryptProvider', BCryptProvider)
@@ -17,3 +19,4 @@ container.registerSingleton<JwtProtocol>('JsonWebTokenProvider', JsonWebTokenPro
 // Repositories
 container.registerSingleton<UserProtocol>('UserRepository', UserRepository)
 container.registerSingleton<AccountProtocol>('AccountRepository', AccountRepository)
+container.registerSingleton<TransactionProtocol>('TransactionRepository', TransactionRepository)
