@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe'
-import currency from 'currency.js'
 
 import { AppError } from '@/shared/errors/app-error'
+import { CurrencyProtocol } from '@/shared/containers/providers/currency-provider/protocols/currency-protocol'
 import { Transaction } from '../infrastructure/typeorm/entities/transaction'
 import { TransactionProtocol } from '../protocols/repositories/transaction-protocol'
 import { TransactionTypeEnum } from '../enums'
@@ -19,6 +19,9 @@ interface Request {
 @injectable()
 class CreateTransactionService {
   constructor (
+    @inject('CurrencyJsProvider')
+    private readonly currencyJsProvider: CurrencyProtocol,
+
     @inject('TransactionRepository')
     private readonly transactionRepository: TransactionProtocol,
 
@@ -56,7 +59,7 @@ class CreateTransactionService {
       throw new AppError('Conta não identificada', 404)
     }
 
-    const currencyValue = currency(value).value
+    const currencyValue = this.currencyJsProvider.getValue(value)
 
     if (currencyValue <= 0.00) {
       throw new AppError('Valor não permitido', 406)
@@ -70,17 +73,19 @@ class CreateTransactionService {
       throw new AppError('Tipo de transação inválido', 404)
     }
 
+    const balanceValue = this.currencyJsProvider.getValue(account.balance)
+
     switch (typeEnum) {
       case TransactionTypeEnum.RESCUE:
       case TransactionTypeEnum.PAYMENT:
-        if (currency(account.balance).subtract(currencyValue).value >= 0) {
-          account.balance = currency(account.balance).subtract(currencyValue).value
+        if (this.currencyJsProvider.subtract([balanceValue, currencyValue]) >= 0) {
+          account.balance = this.currencyJsProvider.subtract([balanceValue, currencyValue])
         } else {
           throw new AppError('Saldo insuficiente', 200)
         }
         break
       default:
-        account.balance = currency(account.balance).add(currencyValue).value
+        account.balance = this.currencyJsProvider.add([balanceValue, currencyValue])
         break
     }
 

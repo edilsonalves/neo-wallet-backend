@@ -4,6 +4,8 @@ import { BCryptProvider } from './providers/hash-provider/implementations/bcrypt
 import { HashProtocol } from './providers/hash-provider/protocols/hash-protocol'
 import { JsonWebTokenProvider } from './providers/jwt-provider/implementations/jsonwebtoken-provider'
 import { JwtProtocol } from './providers/jwt-provider/protocols/jwt-protocol'
+import { CurrencyJsProvider } from './providers/currency-provider/implementations/currency-js-provider'
+import { CurrencyProtocol } from './providers/currency-provider/protocols/currency-protocol'
 
 import { UserRepository } from '@/modules/user/infrastructure/typeorm/repositories/user-repository'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
@@ -15,6 +17,7 @@ import { TransactionProtocol } from '@/modules/transaction/protocols/repositorie
 // Providers
 container.registerSingleton<HashProtocol>('BCryptProvider', BCryptProvider)
 container.registerSingleton<JwtProtocol>('JsonWebTokenProvider', JsonWebTokenProvider)
+container.registerSingleton<CurrencyProtocol>('CurrencyJsProvider', CurrencyJsProvider)
 
 // Repositories
 container.registerSingleton<UserProtocol>('UserRepository', UserRepository)
