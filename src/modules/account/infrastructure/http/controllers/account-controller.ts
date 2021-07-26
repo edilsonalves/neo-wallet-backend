@@ -9,9 +9,9 @@ class AccountController {
     const { id } = request.user
 
     const createAccountService = container.resolve(CreateAccountService)
-    const user = await createAccountService.execute({ userId: id })
+    const account = await createAccountService.execute({ userId: id })
 
-    return response.json(classToClass(user))
+    return response.json(classToClass(account))
   }
 }
 
