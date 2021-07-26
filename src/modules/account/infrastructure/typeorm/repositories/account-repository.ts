@@ -18,6 +18,12 @@ class AccountRepository implements AccountProtocol {
 
     return account
   }
+
+  public async findById (id: string): Promise<Account | undefined> {
+    const account = await this.ormRepository.findOne(id)
+
+    return account
+  }
 }
 
 export { AccountRepository }
