@@ -38,7 +38,10 @@ class UserRepository implements UserProtocol {
   }
 
   public async findByCpf (cpf: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({ where: { cpf } })
+    const user = await this.ormRepository.findOne({
+      where: { cpf },
+      relations: ['account']
+    })
 
     return user
   }
