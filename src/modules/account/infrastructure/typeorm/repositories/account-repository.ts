@@ -1,4 +1,4 @@
-import { Repository, getRepository } from 'typeorm'
+import { Repository, getRepository, EntityManager } from 'typeorm'
 
 import { Account } from '../entities/account'
 import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
@@ -19,8 +19,20 @@ class AccountRepository implements AccountProtocol {
     return account
   }
 
+  public async saveTransaction (data: Account, entityManager: EntityManager): Promise<Account> {
+    const account = await entityManager.save(data)
+
+    return account
+  }
+
   public async findById (id: string): Promise<Account | undefined> {
     const account = await this.ormRepository.findOne(id)
+
+    return account
+  }
+
+  public async findByFakeKey (fakeKey: string): Promise<Account | undefined> {
+    const account = await this.ormRepository.findOne({ where: { fakeKey } })
 
     return account
   }
