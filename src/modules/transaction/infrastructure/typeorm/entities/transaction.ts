@@ -21,6 +21,15 @@ class Transaction {
   })
   status: TransactionStatusEnum
 
+  @Column({ nullable: true })
+  fakeKey: string
+
+  @Column({ nullable: true })
+  barCode: string
+
+  @Column({ nullable: true })
+  description: string
+
   @Column({ type: 'float' })
   value: number
 

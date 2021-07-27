@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe'
+import { getConnection } from 'typeorm'
 
 import { AppError } from '@/shared/errors/app-error'
 import { CurrencyProtocol } from '@/shared/containers/providers/currency-provider/protocols/currency-protocol'
@@ -12,12 +13,11 @@ import { isValidId } from '@/shared/utils'
 interface Request {
   userId: string
   accountId: string
-  type: string
   value: number
 }
 
 @injectable()
-class CreateTransactionService {
+class CreateRescueService {
   constructor (
     @inject('CurrencyJsProvider')
     private readonly currencyJsProvider: CurrencyProtocol,
@@ -32,12 +32,7 @@ class CreateTransactionService {
     private readonly accountRepository: AccountProtocol
   ) {}
 
-  public async execute ({
-    userId,
-    accountId,
-    type,
-    value
-  }: Request): Promise<Transaction> {
+  public async execute ({ userId, accountId, value }: Request): Promise<Transaction | undefined> {
     if (!isValidId(userId)) {
       throw new AppError('Usuário não identificado', 404)
     }
@@ -59,48 +54,35 @@ class CreateTransactionService {
       throw new AppError('Conta não identificada', 404)
     }
 
-    const currencyValue = this.currencyJsProvider.getValue(value)
+    const rescueValue = this.currencyJsProvider.getValue(value)
+    const balanceValue = this.currencyJsProvider.getValue(account.balance)
 
-    if (currencyValue <= 0.00) {
+    if (rescueValue <= 0.00) {
       throw new AppError('Valor não permitido', 406)
     }
 
-    const typeEnum = TransactionTypeEnum[
-      type.toUpperCase() as keyof typeof TransactionTypeEnum
-    ]
-
-    if (typeEnum === undefined) {
-      throw new AppError('Tipo de transação inválido', 404)
+    if (this.currencyJsProvider.subtract([balanceValue, rescueValue]) < 0.00) {
+      throw new AppError('Saldo insuficiente', 200)
     }
 
-    const balanceValue = this.currencyJsProvider.getValue(account.balance)
+    let transaction: Transaction | undefined
 
-    switch (typeEnum) {
-      case TransactionTypeEnum.RESCUE:
-      case TransactionTypeEnum.PAYMENT:
-        if (this.currencyJsProvider.subtract([balanceValue, currencyValue]) >= 0) {
-          account.balance = this.currencyJsProvider.subtract([balanceValue, currencyValue])
-        } else {
-          throw new AppError('Saldo insuficiente', 200)
-        }
-        break
-      default:
-        account.balance = this.currencyJsProvider.add([balanceValue, currencyValue])
-        break
-    }
+    await getConnection().transaction(async entityManager => {
+      account.balance = this.currencyJsProvider.subtract([balanceValue, rescueValue])
+      await this.accountRepository.saveTransaction(account, entityManager)
 
-    await this.accountRepository.save(account)
+      transaction = this.transactionRepository.create({
+        type: TransactionTypeEnum.RESCUE,
+        fakeKey: account.fakeKey,
+        value: rescueValue,
+        account
+      })
 
-    const transaction = this.transactionRepository.create({
-      type: typeEnum,
-      value,
-      account
+      await this.transactionRepository.saveTransaction(transaction, entityManager)
     })
-
-    await this.transactionRepository.save(transaction)
 
     return transaction
   }
 }
 
-export { CreateTransactionService }
+export { CreateRescueService }

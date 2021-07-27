@@ -66,7 +66,6 @@ class CreateUserService {
     }
 
     const hashedPassword = await this.bcryptProvider.generateHash(password)
-
     const user = this.userRepository.create({
       firstName,
       lastName,
