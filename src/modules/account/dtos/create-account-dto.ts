@@ -1,8 +1,7 @@
 import { User } from '@/modules/user/infrastructure/typeorm/entities/user'
 
 interface CreateAccountDto {
-  agency: string
-  number: string
+  fakeKey: string
   balance?: number
   income?: number
   user: User

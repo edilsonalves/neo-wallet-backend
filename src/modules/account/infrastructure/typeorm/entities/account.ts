@@ -16,11 +16,9 @@ class Account {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
+  // Simulates a Pix key
   @Column()
-  agency: string
-
-  @Column()
-  number: string
+  fakeKey: string
 
   @Column({ type: 'float', default: 0.00 })
   balance: number

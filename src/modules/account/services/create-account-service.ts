@@ -36,8 +36,8 @@ class CreateAccountService {
       throw new AppError('O usuário já possui uma conta', 403)
     }
 
-    const { agency, number } = fakeAccountGenerator()
-    const account = this.accountRepository.create({ agency, number, user })
+    const fakeKey = fakeAccountGenerator()
+    const account = this.accountRepository.create({ fakeKey, user })
 
     await this.accountRepository.save(account)
 
