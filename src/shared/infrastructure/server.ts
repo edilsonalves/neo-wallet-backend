@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express'
 import { createConnection } from 'typeorm'
+import cors from 'cors'
 
 import 'express-async-errors'
 import 'reflect-metadata'
@@ -26,6 +27,7 @@ class Server {
   }
 
   private setupServer (): void {
+    this.app.use(cors())
     this.app.use(express.json())
   }
 
