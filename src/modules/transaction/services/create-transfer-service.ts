@@ -7,7 +7,7 @@ import { Transaction } from '../infrastructure/typeorm/entities/transaction'
 import { TransactionProtocol } from '../protocols/repositories/transaction-protocol'
 import { TransactionTypeEnum } from '../enums'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
-import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
 import { isValidId } from '@/shared/utils'
 
 interface Request {
@@ -80,7 +80,7 @@ class CreateTransferService {
     }
 
     if (this.currencyJsProvider.subtract([originBalanceValue, transferValue]) < 0.00) {
-      throw new AppError('Saldo insuficiente', 200)
+      throw new AppError('Saldo insuficiente', 406)
     }
 
     let outboundTransaction: Transaction | undefined

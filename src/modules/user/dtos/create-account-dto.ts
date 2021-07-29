@@ -1,4 +1,4 @@
-import { User } from '@/modules/user/infrastructure/typeorm/entities/user'
+import { User } from '../infrastructure/typeorm/entities/user'
 
 interface CreateAccountDto {
   fakeKey: string

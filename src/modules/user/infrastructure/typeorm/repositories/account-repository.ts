@@ -1,8 +1,8 @@
 import { Repository, getRepository, EntityManager } from 'typeorm'
 
 import { Account } from '../entities/account'
-import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
-import { CreateAccountDto } from '@/modules/account/dtos/create-account-dto'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
+import { CreateAccountDto } from '@/modules/user/dtos/create-account-dto'
 
 class AccountRepository implements AccountProtocol {
   constructor (private readonly ormRepository: Repository<Account> = getRepository(Account)) {}

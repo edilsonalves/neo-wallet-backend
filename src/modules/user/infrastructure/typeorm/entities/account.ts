@@ -8,7 +8,7 @@ import {
   UpdateDateColumn
 } from 'typeorm'
 
-import { User } from '@/modules/user/infrastructure/typeorm/entities/user'
+import { User } from './user'
 import { Transaction } from '@/modules/transaction/infrastructure/typeorm/entities/transaction'
 
 @Entity('accounts')

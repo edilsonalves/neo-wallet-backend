@@ -9,8 +9,8 @@ import { CurrencyProtocol } from './providers/currency-provider/protocols/curren
 
 import { UserRepository } from '@/modules/user/infrastructure/typeorm/repositories/user-repository'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
-import { AccountRepository } from '@/modules/account/infrastructure/typeorm/repositories/account-repository'
-import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
+import { AccountRepository } from '@/modules/user/infrastructure/typeorm/repositories/account-repository'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
 import { TransactionRepository } from '@/modules/transaction/infrastructure/typeorm/repositories/transaction-repository'
 import { TransactionProtocol } from '@/modules/transaction/protocols/repositories/transaction-protocol'
 

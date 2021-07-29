@@ -1,10 +1,12 @@
 import { injectable, inject } from 'tsyringe'
+import { getConnection } from 'typeorm'
 
 import { AppError } from '@/shared/errors/app-error'
 import { User } from '../infrastructure/typeorm/entities/user'
 import { HashProtocol } from '@/shared/containers/providers/hash-provider/protocols/hash-protocol'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
 import { UserProtocol } from '../protocols/repositories/user-protocol'
-import { isValidCpf, isValidEmail } from '../utils'
+import { isValidCpf, isValidEmail, fakeAccountGenerator } from '../utils'
 
 interface Request {
   firstName: string
@@ -23,7 +25,10 @@ class CreateUserService {
     private readonly bcryptProvider: HashProtocol,
 
     @inject('UserRepository')
-    private readonly userRepository: UserProtocol
+    private readonly userRepository: UserProtocol,
+
+    @inject('AccountRepository')
+    private readonly accountRepository: AccountProtocol
   ) {}
 
   public async execute ({
@@ -34,7 +39,7 @@ class CreateUserService {
     cpf,
     password,
     passwordConfirmation
-  }: Request): Promise<User> {
+  }: Request): Promise<User | undefined> {
     if (isValidEmail(email)) {
       const userByEmail = await this.userRepository.findByEmail(email)
 
@@ -65,17 +70,26 @@ class CreateUserService {
       throw new AppError('As senhas não coincidem', 409)
     }
 
-    const hashedPassword = await this.bcryptProvider.generateHash(password)
-    const user = this.userRepository.create({
-      firstName,
-      lastName,
-      email,
-      phone,
-      cpf,
-      password: hashedPassword
-    })
+    let user: User | undefined
 
-    await this.userRepository.save(user)
+    await getConnection().transaction(async (entityManager) => {
+      const hashedPassword = await this.bcryptProvider.generateHash(password)
+      const user = this.userRepository.create({
+        firstName,
+        lastName,
+        email,
+        phone,
+        cpf,
+        password: hashedPassword
+      })
+
+      await this.userRepository.save(user)
+
+      const fakeKey = fakeAccountGenerator()
+      const account = this.accountRepository.create({ fakeKey, user })
+
+      await this.accountRepository.save(account)
+    })
 
     return user
   }

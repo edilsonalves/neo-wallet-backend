@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 import { Exclude } from 'class-transformer'
 
-import { Account } from '@/modules/account/infrastructure/typeorm/entities/account'
+import { Account } from './account'
 
 @Entity('users')
 class User {

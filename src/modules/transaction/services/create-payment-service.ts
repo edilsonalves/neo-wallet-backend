@@ -7,7 +7,7 @@ import { Transaction } from '../infrastructure/typeorm/entities/transaction'
 import { TransactionProtocol } from '../protocols/repositories/transaction-protocol'
 import { TransactionTypeEnum } from '../enums'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
-import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
 import { isValidId } from '@/shared/utils'
 
 interface Request {
@@ -58,7 +58,7 @@ class CreatePaymentService {
     const transactionByBarCode = await this.transactionRepository.findByBarCode(barCode)
 
     if (transactionByBarCode !== undefined) {
-      throw new AppError('Pagamento já realizado', 200)
+      throw new AppError('Pagamento já realizado', 406)
     }
 
     const [user, account] = await Promise.all([
@@ -82,7 +82,7 @@ class CreatePaymentService {
     }
 
     if (this.currencyJsProvider.subtract([balanceValue, paymentValue]) < 0.00) {
-      throw new AppError('Saldo insuficiente', 200)
+      throw new AppError('Saldo insuficiente', 406)
     }
 
     let transaction: Transaction | undefined

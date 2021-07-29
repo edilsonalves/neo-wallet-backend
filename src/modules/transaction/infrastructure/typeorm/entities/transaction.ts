@@ -1,7 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn
+} from 'typeorm'
 
-import { Account } from '@/modules/account/infrastructure/typeorm/entities/account'
 import { TransactionTypeEnum, TransactionStatusEnum } from '@/modules/transaction/enums'
+import { Account } from '@/modules/user/infrastructure/typeorm/entities/account'
 
 @Entity('transactions')
 class Transaction {
@@ -33,7 +41,11 @@ class Transaction {
   @Column({ type: 'float' })
   value: number
 
+  @Column()
+  accountId: string
+
   @ManyToOne(() => Account, account => account.transactions)
+  @JoinColumn({ name: 'accountId' })
   account: Account
 
   @CreateDateColumn()

@@ -7,7 +7,7 @@ import { Transaction } from '../infrastructure/typeorm/entities/transaction'
 import { TransactionProtocol } from '../protocols/repositories/transaction-protocol'
 import { TransactionTypeEnum } from '../enums'
 import { UserProtocol } from '@/modules/user/protocols/repositories/user-protocol'
-import { AccountProtocol } from '@/modules/account/protocols/repositories/account-protocol'
+import { AccountProtocol } from '@/modules/user/protocols/repositories/account-protocol'
 import { isValidId } from '@/shared/utils'
 
 interface Request {

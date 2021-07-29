@@ -1,7 +1,7 @@
 import { EntityManager } from 'typeorm'
 
-import { Account } from '@/modules/account/infrastructure/typeorm/entities/account'
-import { CreateAccountDto } from '@/modules/account/dtos/create-account-dto'
+import { Account } from '@/modules/user/infrastructure/typeorm/entities/account'
+import { CreateAccountDto } from '@/modules/user/dtos/create-account-dto'
 
 interface AccountProtocol {
   create: (data: CreateAccountDto) => Account
