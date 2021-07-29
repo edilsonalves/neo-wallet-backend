@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register -r dotenv/config --files src/shared/infrastructure/server.ts",
     "dev:db": "docker-compose up -d",
+    "dev:db-reset": "docker stop $(docker ps -q) && docker-compose down -v && docker-compose up -d",
     "test": "jest",
     "test:staged": "jest --passWithNoTests",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
