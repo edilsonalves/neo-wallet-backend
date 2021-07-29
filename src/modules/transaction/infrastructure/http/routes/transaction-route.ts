@@ -14,7 +14,6 @@ const paymentController = new PaymentController()
 const transferController = new TransferController()
 
 transactionRoute.get('/', transactionController.index)
-
 transactionRoute.post('/deposit', depositController.create)
 transactionRoute.post('/rescue', rescueController.create)
 transactionRoute.post('/payment', paymentController.create)

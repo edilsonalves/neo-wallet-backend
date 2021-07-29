@@ -7,6 +7,7 @@ interface TransactionProtocol {
   create: (data: CreateTransactionDto) => Transaction
   save: (data: Transaction) => Promise<Transaction>
   saveTransaction: (data: Transaction, entityManager: EntityManager) => Promise<Transaction>
+  findByAccountId: (accountId: string) => Promise<Transaction[]>
   findByBarCode: (barCode: string) => Promise<Transaction | undefined>
 }
 

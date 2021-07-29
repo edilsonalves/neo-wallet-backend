@@ -25,6 +25,12 @@ class TransactionRepository implements TransactionProtocol {
     return transaction
   }
 
+  public async findByAccountId (accountId: string): Promise<Transaction[]> {
+    const transactions = await this.ormRepository.find({ where: { accountId } })
+
+    return transactions
+  }
+
   public async findByBarCode (barCode: string): Promise<Transaction | undefined> {
     const transaction = await this.ormRepository.findOne({ where: { barCode } })
 

@@ -2,22 +2,16 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { classToClass } from 'class-transformer'
 
-import { CreateTransactionService } from '@/modules/transaction/services/create-transaction-service'
+import { ShowTransactionsService } from '@/modules/transaction/services/show-transactions-service'
 
 class TransactionController {
-  public async create (request: Request, response: Response): Promise<Response> {
-    const { type, value, accountId } = request.body
+  public async index (request: Request, response: Response): Promise<Response> {
     const { id } = request.user
 
-    const createTransactionService = container.resolve(CreateTransactionService)
-    const transaction = await createTransactionService.execute({
-      userId: id,
-      accountId,
-      type,
-      value
-    })
+    const showTransactionsService = container.resolve(ShowTransactionsService)
+    const transactions = await showTransactionsService.execute({ userId: id })
 
-    return response.json(classToClass(transaction))
+    return response.json(classToClass(transactions))
   }
 }
 
